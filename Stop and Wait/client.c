@@ -16,13 +16,17 @@ int main() {
     servaddr.sin_family = AF_INET;
     servaddr.sin_addr.s_addr = INADDR_ANY;
     servaddr.sin_port = htons(PORT);
+
     bind(sockfd, (struct sockaddr*)&servaddr, sizeof(servaddr));
 
     printf("[Receiver] Waiting for frames...\n");
 
+
+
     while (1) {
         int n = recvfrom(sockfd, buffer, MAXLINE, 0, (struct sockaddr*)&cliaddr, &len);
         buffer[n] = '\0';
+        
         int frame; char data[100];
         if (sscanf(buffer, "%d:%99[^\n]", &frame, data) != 2) continue;
 
